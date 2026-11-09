@@ -121,6 +121,7 @@ git checkout -b desarrollo-final
 
 | Nombre | Rol / aporte |
 | :--- | :--- |
-| _Integrante 1_ | |
-| _Integrante 2_ | |
-| _Integrante 3_ | |
+| _Integrante 1_ |Cristian Camilo Rodriguez Lugo @Cristian-rl|
+| _Integrante 2_ |Alber Palacio Diaz|
+| _Integrante 3_ |Samuel Balaguera|
+| _Integrante 4_ |Rafael Illera Luna|
