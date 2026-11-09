@@ -1,0 +1,50 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniCampus.Entities", "UniCampus.Entities\UniCampus.Entities.csproj", "{A1C3E5F7-2B4D-4F61-8A9C-1E3F5A7B9C01}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniCampus.DAL", "UniCampus.DAL\UniCampus.DAL.csproj", "{B2D4F6A8-3C5E-4A72-9BAD-2F4A6B8CAD02}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniCampus.BLL", "UniCampus.BLL\UniCampus.BLL.csproj", "{C3E5A7B9-4D6F-4B83-ACBE-3A5B7C9DBE03}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniCampus.Web", "UniCampus.Web\UniCampus.Web.csproj", "{D4F6B8CA-5E7A-4C94-BDCF-4B6C8DAECF04}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Elementos de la solución", "Elementos de la solución", "{F6B8DAEC-7A9C-4EB6-9F10-6D8EAFC0E106}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		BaseDatos\03_BaseDatos.sql = BaseDatos\03_BaseDatos.sql
+		README.md = README.md
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A1C3E5F7-2B4D-4F61-8A9C-1E3F5A7B9C01}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1C3E5F7-2B4D-4F61-8A9C-1E3F5A7B9C01}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A1C3E5F7-2B4D-4F61-8A9C-1E3F5A7B9C01}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A1C3E5F7-2B4D-4F61-8A9C-1E3F5A7B9C01}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B2D4F6A8-3C5E-4A72-9BAD-2F4A6B8CAD02}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B2D4F6A8-3C5E-4A72-9BAD-2F4A6B8CAD02}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B2D4F6A8-3C5E-4A72-9BAD-2F4A6B8CAD02}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B2D4F6A8-3C5E-4A72-9BAD-2F4A6B8CAD02}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C3E5A7B9-4D6F-4B83-ACBE-3A5B7C9DBE03}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3E5A7B9-4D6F-4B83-ACBE-3A5B7C9DBE03}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3E5A7B9-4D6F-4B83-ACBE-3A5B7C9DBE03}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C3E5A7B9-4D6F-4B83-ACBE-3A5B7C9DBE03}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D4F6B8CA-5E7A-4C94-BDCF-4B6C8DAECF04}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D4F6B8CA-5E7A-4C94-BDCF-4B6C8DAECF04}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D4F6B8CA-5E7A-4C94-BDCF-4B6C8DAECF04}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D4F6B8CA-5E7A-4C94-BDCF-4B6C8DAECF04}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E5A7C9DB-6F8B-4DA5-8E0F-5C7D9EBFD005}
+	EndGlobalSection
+EndGlobal

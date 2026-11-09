@@ -1,0 +1,50 @@
+## .gitignore para Visual Studio / ASP.NET (.NET Framework)
+
+# Carpetas de Visual Studio y compilación
+.vs/
+[Bb]in/
+[Oo]bj/
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Ll]og/
+[Ll]ogs/
+
+# Archivos de usuario
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.rsuser
+
+# IIS Express / publicación
+.vs/config/applicationhost.config
+*.pubxml
+*.publishproj
+PublishProfiles/
+[Pp]ublish/
+
+# Paquetes NuGet
+packages/
+*.nupkg
+!**/packages/build/
+
+# Resultados de pruebas
+TestResults/
+[Tt]est[Rr]esult*/
+
+# Archivos temporales
+*.tmp
+*.cache
+*.log
+~$*
+Thumbs.db
+.DS_Store
+
+# Configuración local con secretos (si se crean)
+*.local.config
+connectionStrings.secret.config
+
+# Paquetes de entrega
+*.zip
