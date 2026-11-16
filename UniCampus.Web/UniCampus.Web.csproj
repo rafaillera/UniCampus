@@ -58,6 +58,9 @@
   <ItemGroup>
     <Content Include="Actividades.aspx" />
     <Content Include="Content\site.css" />
+    <Content Include="Error.html" />
+    <Content Include="Login.aspx" />
+    <Content Include="Site.Master" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -76,9 +79,27 @@
     <Compile Include="Actividades.aspx.designer.cs">
       <DependentUpon>Actividades.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Login.aspx.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Login.aspx.designer.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Presenters\ActividadesPresenter.cs" />
+    <Compile Include="Presenters\LoginPresenter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Seguridad\PaginaBase.cs" />
+    <Compile Include="Seguridad\SesionUsuario.cs" />
+    <Compile Include="Site.Master.cs">
+      <DependentUpon>Site.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Site.Master.designer.cs">
+      <DependentUpon>Site.Master</DependentUpon>
+    </Compile>
     <Compile Include="Views\IActividadesView.cs" />
+    <Compile Include="Views\ILoginView.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\UniCampus.BLL\UniCampus.BLL.csproj">

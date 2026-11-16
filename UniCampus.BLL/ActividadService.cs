@@ -41,6 +41,14 @@ namespace UniCampus.BLL
         }
 
         /// <summary>
+        /// Devuelve una actividad por su Id, o null si el Id no es válido o no existe.
+        /// </summary>
+        public ActividadDto ObtenerActividad(int actividadId)
+        {
+            return actividadId > 0 ? _repository.ObtenerPorId(actividadId) : null;
+        }
+
+        /// <summary>
         /// Valida la actividad en el servidor y, solo si es válida, la inserta.
         /// Si hay errores de validación se devuelven sin llamar a la capa DAL.
         /// </summary>

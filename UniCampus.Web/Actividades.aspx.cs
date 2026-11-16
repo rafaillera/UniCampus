@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Web.UI;
 using System.Web.UI.WebControls;
 using UniCampus.Entities;
 using UniCampus.Web.Presenters;
+using UniCampus.Web.Seguridad;
 using UniCampus.Web.Views;
 
 namespace UniCampus.Web
@@ -12,10 +12,16 @@ namespace UniCampus.Web
     /// <summary>
     /// Vista (MVP). Implementa IActividadesView: solo lee y escribe controles
     /// y delega toda acción al Presenter. Aquí no hay SQL ni reglas de negocio.
+    /// Solo pueden abrirla organizadores y administradores.
     /// </summary>
-    public partial class Actividades : Page, IActividadesView
+    public partial class Actividades : PaginaBase, IActividadesView
     {
         private ActividadesPresenter _presenter;
+
+        protected override string[] RolesPermitidos
+        {
+            get { return Roles.Gestores; }
+        }
 
         protected void Page_Init(object sender, EventArgs e)
         {

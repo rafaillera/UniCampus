@@ -39,9 +39,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActividadRepository.cs" />
+    <Compile Include="ActividadSql.cs" />
     <Compile Include="ConexionDb.cs" />
     <Compile Include="TipoActividadRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UsuarioRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\UniCampus.Entities\UniCampus.Entities.csproj">

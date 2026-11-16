@@ -1,0 +1,46 @@
+<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.Master.cs" Inherits="UniCampus.Web.SiteMaster" %>
+
+<!DOCTYPE html>
+<html lang="es">
+<head runat="server">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>UniCampus</title>
+    <link href="~/Content/site.css" rel="stylesheet" />
+    <asp:ContentPlaceHolder ID="HeadContent" runat="server" />
+</head>
+<body>
+    <form id="form1" runat="server">
+        <header class="barra-superior">
+            <a class="marca" href="<%: ResolveUrl("~/") %>">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 1 9l11 6 9-4.91V17h2V9L12 3zm-6.18 9.5L12 16l6.18-3.5V16L12 19.5 5.82 16v-3.5z" /></svg>
+                <span>
+                    <strong>UniCampus</strong>
+                    <small>Sistema de Gestión Académica</small>
+                </span>
+            </a>
+            <div class="usuario">
+                <span class="avatar"><asp:Literal ID="litInicial" runat="server" /></span>
+                <span>
+                    <strong><asp:Literal ID="litNombre" runat="server" /></strong>
+                    <small><asp:Literal ID="litRol" runat="server" /></small>
+                </span>
+            </div>
+        </header>
+
+        <div class="disposicion">
+            <nav class="menu-lateral" aria-label="Menú principal">
+                <asp:HyperLink ID="lnkActividades" runat="server" NavigateUrl="~/Actividades.aspx" Text="Gestión de actividades" />
+                <asp:HyperLink ID="lnkCatalogo" runat="server" NavigateUrl="~/Catalogo.aspx" Text="Catálogo de actividades" />
+                <asp:HyperLink ID="lnkMisInscripciones" runat="server" NavigateUrl="~/MisInscripciones.aspx" Text="Mis inscripciones" />
+                <asp:HyperLink ID="lnkReportes" runat="server" NavigateUrl="~/Reportes.aspx" Text="Reportes" />
+                <asp:LinkButton ID="lnkSalir" runat="server" CssClass="salir" OnClick="lnkSalir_Click" CausesValidation="false" Text="Cerrar sesión" />
+            </nav>
+
+            <main class="contenido">
+                <asp:ContentPlaceHolder ID="MainContent" runat="server" />
+            </main>
+        </div>
+    </form>
+</body>
+</html>

@@ -27,4 +27,28 @@
 
         public static readonly string[] Todas = { Presencial, Virtual, Hibrida };
     }
+
+    /// <summary>
+    /// Roles de usuario. Coinciden con la restricción CK_Usuario_Rol.
+    /// </summary>
+    public static class Roles
+    {
+        public const string Estudiante = "Estudiante";
+        public const string Organizador = "Organizador";
+        public const string Administrador = "Administrador";
+
+        /// <summary>Roles que pueden crear, editar y desactivar actividades.</summary>
+        public static readonly string[] Gestores = { Organizador, Administrador };
+    }
+
+    /// <summary>
+    /// Estados de una inscripción. Coinciden con la restricción CK_Inscripcion_Estado.
+    /// Una inscripción "vigente" es cualquiera que no esté Cancelada.
+    /// </summary>
+    public static class EstadosInscripcion
+    {
+        public const string Activa = "Activa";
+        public const string Cancelada = "Cancelada";
+        public const string Asistio = "Asistió";
+    }
 }

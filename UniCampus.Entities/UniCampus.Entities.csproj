@@ -38,9 +38,11 @@
   <ItemGroup>
     <Compile Include="ActividadDto.cs" />
     <Compile Include="Catalogos.cs" />
+    <Compile Include="ResultadoAutenticacion.cs" />
     <Compile Include="ResultadoOperacion.cs" />
     <Compile Include="TipoActividadDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UsuarioDto.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

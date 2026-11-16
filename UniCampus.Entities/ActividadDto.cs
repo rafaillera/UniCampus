@@ -34,5 +34,14 @@ namespace UniCampus.Entities
 
         /// <summary>Borrador, Publicada, Cancelada, Finalizada o Inactiva.</summary>
         public string Estado { get; set; }
+
+        /// <summary>Inscripciones vigentes (no canceladas). Se calcula al consultar.</summary>
+        public int Inscritos { get; set; }
+
+        /// <summary>Cupos libres = Cupos - Inscritos (nunca negativo).</summary>
+        public int CuposDisponibles
+        {
+            get { return Math.Max(0, Cupos - Inscritos); }
+        }
     }
 }
