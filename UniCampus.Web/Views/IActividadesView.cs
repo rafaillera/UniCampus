@@ -25,5 +25,16 @@ namespace UniCampus.Web.Views
 
         /// <summary>Deja el formulario en blanco después de un registro exitoso.</summary>
         void LimpiarFormulario();
+
+        // ---- Entrega final: editar, ver detalle y cambiar estado ----
+
+        /// <summary>Llena el formulario con los datos de una actividad para editarla.</summary>
+        void CargarEnFormulario(ActividadDto actividad);
+
+        /// <summary>Cambia títulos y botones entre "registrar" y "editar".</summary>
+        void MostrarModoEdicion(bool editando);
+
+        /// <summary>Muestra el panel de detalle de una actividad (null lo oculta).</summary>
+        void MostrarDetalle(ActividadDto actividad);
     }
 }

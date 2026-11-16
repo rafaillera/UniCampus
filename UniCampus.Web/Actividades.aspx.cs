@@ -42,6 +42,52 @@ namespace UniCampus.Web
             _presenter.GuardarActividad(dto);
         }
 
+        protected void btnCancelar_Click(object sender, EventArgs e)
+        {
+            _presenter.CancelarEdicion();
+        }
+
+        protected void btnCerrarDetalle_Click(object sender, EventArgs e)
+        {
+            MostrarDetalle(null);
+        }
+
+        /// <summary>Botones Ver / Editar / Publicar / Desactivar de cada fila.</summary>
+        protected void gvActividades_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+            int actividadId = LeerEntero(Convert.ToString(e.CommandArgument, CultureInfo.InvariantCulture));
+
+            switch (e.CommandName)
+            {
+                case "Ver":
+                    _presenter.VerDetalle(actividadId);
+                    break;
+                case "Editar":
+                    _presenter.EditarActividad(actividadId);
+                    break;
+                case "Publicar":
+                    _presenter.CambiarEstado(actividadId, EstadosActividad.Publicada);
+                    break;
+                case "Desactivar":
+                    _presenter.CambiarEstado(actividadId, EstadosActividad.Inactiva);
+                    break;
+            }
+        }
+
+        /// <summary>Usado en el GridView para mostrar u ocultar el botón Publicar.</summary>
+        protected bool PuedePublicar(object estado)
+        {
+            string valor = Convert.ToString(estado);
+            return valor == EstadosActividad.Borrador || valor == EstadosActividad.Inactiva;
+        }
+
+        /// <summary>Usado en el GridView para mostrar u ocultar el botón Desactivar.</summary>
+        protected bool PuedeDesactivar(object estado)
+        {
+            string valor = Convert.ToString(estado);
+            return valor == EstadosActividad.Publicada || valor == EstadosActividad.Borrador;
+        }
+
         // ---------------------------------------------------------------------
         // Implementación de IActividadesView
         // ---------------------------------------------------------------------
@@ -75,6 +121,7 @@ namespace UniCampus.Web
 
         public void LimpiarFormulario()
         {
+            hfActividadId.Value = string.Empty;
             txtTitulo.Text = string.Empty;
             txtDescripcion.Text = string.Empty;
             txtFechaInicio.Text = string.Empty;
@@ -88,6 +135,44 @@ namespace UniCampus.Web
             ddlEstado.SelectedIndex = 0;
         }
 
+        public void CargarEnFormulario(ActividadDto actividad)
+        {
+            hfActividadId.Value = actividad.ActividadId.ToString(CultureInfo.InvariantCulture);
+            txtTitulo.Text = actividad.Titulo;
+            txtDescripcion.Text = actividad.Descripcion;
+            // TextMode="Date" y "Time" esperan yyyy-MM-dd y HH:mm
+            txtFechaInicio.Text = actividad.FechaInicio.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+            txtFechaFin.Text = actividad.FechaFin.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+            txtHoraInicio.Text = actividad.HoraInicio.HasValue ? actividad.HoraInicio.Value.ToString(@"hh\:mm") : string.Empty;
+            txtHoraFin.Text = actividad.HoraFin.HasValue ? actividad.HoraFin.Value.ToString(@"hh\:mm") : string.Empty;
+            txtLugar.Text = actividad.Lugar;
+            txtCupos.Text = actividad.Cupos.ToString(CultureInfo.InvariantCulture);
+            SeleccionarValor(ddlTipo, actividad.TipoId.ToString(CultureInfo.InvariantCulture));
+            SeleccionarValor(ddlModalidad, actividad.Modalidad);
+        }
+
+        public void MostrarModoEdicion(bool editando)
+        {
+            litTituloFormulario.Text = editando ? "Editar actividad académica" : "Nueva actividad académica";
+            btnGuardar.Text = editando ? "Guardar cambios" : "Guardar actividad";
+            btnCancelar.Visible = editando;
+            pnlEstado.Visible = !editando;
+        }
+
+        public void MostrarDetalle(ActividadDto actividad)
+        {
+            if (actividad == null)
+            {
+                pnlDetalle.Visible = false;
+                return;
+            }
+
+            dvDetalle.DataSource = new List<ActividadDto> { actividad };
+            dvDetalle.DataBind();
+            lnkVerInscritos.NavigateUrl = "~/DetalleActividad.aspx?id=" + actividad.ActividadId.ToString(CultureInfo.InvariantCulture);
+            pnlDetalle.Visible = true;
+        }
+
         // ---------------------------------------------------------------------
         // Auxiliares de la Vista: solo convierten el texto de los controles
         // al DTO. Las validaciones de negocio se hacen en la capa BLL.
@@ -97,6 +182,7 @@ namespace UniCampus.Web
         {
             return new ActividadDto
             {
+                ActividadId = LeerEntero(hfActividadId.Value),
                 Titulo = txtTitulo.Text,
                 Descripcion = txtDescripcion.Text,
                 TipoId = LeerEntero(ddlTipo.SelectedValue),
@@ -118,6 +204,16 @@ namespace UniCampus.Web
             lblMensaje.Text = Server.HtmlEncode(mensaje);
             lblMensaje.CssClass = cssClass;
             lblMensaje.Visible = true;
+        }
+
+        private static void SeleccionarValor(DropDownList lista, string valor)
+        {
+            ListItem item = lista.Items.FindByValue(valor);
+            if (item != null)
+            {
+                lista.ClearSelection();
+                item.Selected = true;
+            }
         }
 
         private static int LeerEntero(string texto)

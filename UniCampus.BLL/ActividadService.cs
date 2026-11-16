@@ -6,17 +6,14 @@ using UniCampus.Entities;
 
 namespace UniCampus.BLL
 {
-    /// <summary>
-    /// Reglas de negocio de las actividades académicas.
-    /// Esta capa NO contiene SQL ni referencias a System.Web: valida los datos
-    /// y delega la persistencia al repositorio de la capa DAL.
-    /// </summary>
     public class ActividadService
     {
         public const int LongitudMaximaTitulo = 150;
         public const int LongitudMaximaDescripcion = 1000;
         public const int LongitudMaximaLugar = 150;
         public const int CupoMaximoPermitido = 1000;
+
+        public const string MensajeFechaInicioPasada = "La fecha de inicio no puede ser anterior a la fecha actual.";
 
         private readonly ActividadRepository _repository;
         private readonly TipoActividadRepository _tipoRepository;
@@ -32,26 +29,16 @@ namespace UniCampus.BLL
             _tipoRepository = tipoRepository ?? throw new ArgumentNullException(nameof(tipoRepository));
         }
 
-        /// <summary>
-        /// Lista las actividades publicadas.
-        /// </summary>
         public List<ActividadDto> ListarActividades()
         {
             return _repository.ObtenerPublicadas();
         }
 
-        /// <summary>
-        /// Devuelve una actividad por su Id, o null si el Id no es válido o no existe.
-        /// </summary>
         public ActividadDto ObtenerActividad(int actividadId)
         {
             return actividadId > 0 ? _repository.ObtenerPorId(actividadId) : null;
         }
 
-        /// <summary>
-        /// Valida la actividad en el servidor y, solo si es válida, la inserta.
-        /// Si hay errores de validación se devuelven sin llamar a la capa DAL.
-        /// </summary>
         public ResultadoOperacion RegistrarActividad(ActividadDto dto)
         {
             if (dto == null)
@@ -76,10 +63,6 @@ namespace UniCampus.BLL
             return ResultadoOperacion.Ok("La actividad \"" + dto.Titulo + "\" se registró correctamente.", nuevoId);
         }
 
-        /// <summary>
-        /// Reglas de validación del servidor. Se expone como público para
-        /// facilitar pruebas unitarias sin base de datos.
-        /// </summary>
         public List<string> Validar(ActividadDto dto)
         {
             var errores = new List<string>();
@@ -105,7 +88,7 @@ namespace UniCampus.BLL
             if (!tieneFechaInicio)
                 errores.Add("La fecha de inicio es obligatoria.");
             else if (dto.FechaInicio.Date < DateTime.Today)
-                errores.Add("La fecha de inicio no puede ser anterior a la fecha actual.");
+                errores.Add(MensajeFechaInicioPasada);
 
             if (!tieneFechaFin)
                 errores.Add("La fecha de finalización es obligatoria.");
@@ -144,6 +127,90 @@ namespace UniCampus.BLL
                 errores.Add("El estado seleccionado no es válido.");
 
             return errores;
+        }
+
+        public List<ActividadDto> ListarTodas()
+        {
+            return _repository.ObtenerTodas();
+        }
+
+        public ResultadoOperacion ActualizarActividad(ActividadDto dto)
+        {
+            if (dto == null || dto.ActividadId <= 0)
+            {
+                return ResultadoOperacion.Fallo("No se recibió la actividad que desea actualizar.");
+            }
+
+            ActividadDto actual = _repository.ObtenerPorId(dto.ActividadId);
+            if (actual == null)
+            {
+                return ResultadoOperacion.Fallo("La actividad que intenta editar no existe.");
+            }
+
+            Normalizar(dto);
+            dto.Estado = actual.Estado;
+
+            List<string> errores = Validar(dto);
+
+            if (dto.FechaInicio.Date == actual.FechaInicio.Date)
+            {
+                errores.Remove(MensajeFechaInicioPasada);
+            }
+
+            if (dto.Cupos > 0 && dto.Cupos < actual.Inscritos)
+            {
+                errores.Add("No puede reducir los cupos a " + dto.Cupos + ": ya hay "
+                    + actual.Inscritos + " estudiantes inscritos.");
+            }
+
+            if (errores.Count > 0)
+            {
+                return ResultadoOperacion.Fallo(string.Join(" ", errores));
+            }
+
+            if (!_tipoRepository.Existe(dto.TipoId))
+            {
+                return ResultadoOperacion.Fallo("El tipo de actividad seleccionado no existe o está inactivo.");
+            }
+
+            if (!_repository.Actualizar(dto))
+            {
+                return ResultadoOperacion.Fallo("No se pudo actualizar: los cupos quedarían por debajo de los inscritos. Recargue la página e intente de nuevo.");
+            }
+
+            return ResultadoOperacion.Ok("La actividad \"" + dto.Titulo + "\" se actualizó correctamente.", dto.ActividadId);
+        }
+
+        public ResultadoOperacion CambiarEstado(int actividadId, string nuevoEstado)
+        {
+            if (!EstadosActividad.Todos.Contains(nuevoEstado))
+            {
+                return ResultadoOperacion.Fallo("El estado seleccionado no es válido.");
+            }
+
+            ActividadDto actual = ObtenerActividad(actividadId);
+            if (actual == null)
+            {
+                return ResultadoOperacion.Fallo("La actividad no existe.");
+            }
+
+            if (actual.Estado == nuevoEstado)
+            {
+                return ResultadoOperacion.Fallo("La actividad ya está en estado " + nuevoEstado + ".");
+            }
+
+            if (nuevoEstado == EstadosActividad.Publicada && actual.FechaFin.Date < DateTime.Today)
+            {
+                return ResultadoOperacion.Fallo("No se puede publicar una actividad que ya terminó.");
+            }
+
+            _repository.CambiarEstado(actividadId, nuevoEstado);
+
+            string aviso = (nuevoEstado == EstadosActividad.Inactiva || nuevoEstado == EstadosActividad.Cancelada) && actual.Inscritos > 0
+                ? " Tenía " + actual.Inscritos + " estudiante(s) inscrito(s)."
+                : string.Empty;
+
+            return ResultadoOperacion.Ok("La actividad \"" + actual.Titulo + "\" quedó en estado " + nuevoEstado + "." + aviso, actividadId);
         }
 
         private static void Normalizar(ActividadDto dto)

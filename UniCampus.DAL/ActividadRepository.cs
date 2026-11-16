@@ -6,16 +6,8 @@ using UniCampus.Entities;
 
 namespace UniCampus.DAL
 {
-    /// <summary>
-    /// Acceso a datos de dbo.ActividadAcademica con ADO.NET.
-    /// Todas las consultas usan SqlParameter tipados: nunca se concatenan
-    /// valores ingresados por el usuario dentro del texto SQL.
-    /// </summary>
     public class ActividadRepository
     {
-        /// <summary>
-        /// Devuelve las actividades con estado 'Publicada', ordenadas por fecha de inicio.
-        /// </summary>
         public List<ActividadDto> ObtenerPublicadas()
         {
             const string sql = ActividadSql.SelectBase + @"
@@ -42,9 +34,6 @@ namespace UniCampus.DAL
             return actividades;
         }
 
-        /// <summary>
-        /// Devuelve una actividad por su Id (cualquier estado) o null si no existe.
-        /// </summary>
         public ActividadDto ObtenerPorId(int actividadId)
         {
             const string sql = ActividadSql.SelectBase + @"
@@ -63,9 +52,6 @@ namespace UniCampus.DAL
             }
         }
 
-        /// <summary>
-        /// Inserta una nueva actividad y devuelve el ActividadId generado (IDENTITY).
-        /// </summary>
         public int Insertar(ActividadDto nuevaActividad)
         {
             if (nuevaActividad == null) throw new ArgumentNullException(nameof(nuevaActividad));
@@ -96,6 +82,87 @@ namespace UniCampus.DAL
 
                 cn.Open();
                 return (int)cmd.ExecuteScalar();
+            }
+        }
+
+        public List<ActividadDto> ObtenerTodas()
+        {
+            const string sql = ActividadSql.SelectBase + @"
+            ORDER BY a.FechaInicio DESC, a.Titulo;";
+
+            var actividades = new List<ActividadDto>();
+
+            using (SqlConnection cn = ConexionDb.Crear())
+            using (var cmd = new SqlCommand(sql, cn))
+            {
+                cn.Open();
+                using (SqlDataReader dr = cmd.ExecuteReader())
+                {
+                    while (dr.Read())
+                    {
+                        actividades.Add(ActividadSql.Mapear(dr));
+                    }
+                }
+            }
+
+            return actividades;
+        }
+
+        public bool Actualizar(ActividadDto actividad)
+        {
+            if (actividad == null) throw new ArgumentNullException(nameof(actividad));
+
+            const string sql = @"
+            UPDATE dbo.ActividadAcademica
+            SET Titulo      = @Titulo,
+                Descripcion = @Descripcion,
+                TipoId      = @TipoId,
+                FechaInicio = @FechaInicio,
+                FechaFin    = @FechaFin,
+                HoraInicio  = @HoraInicio,
+                HoraFin     = @HoraFin,
+                Modalidad   = @Modalidad,
+                Lugar       = @Lugar,
+                Cupos       = @Cupos
+            WHERE ActividadId = @ActividadId
+              AND @Cupos >= (SELECT COUNT(1) FROM dbo.Inscripcion i
+                             WHERE i.ActividadId = @ActividadId AND i.Estado <> N'Cancelada');";
+
+            using (SqlConnection cn = ConexionDb.Crear())
+            using (var cmd = new SqlCommand(sql, cn))
+            {
+                cmd.Parameters.Add("@ActividadId", SqlDbType.Int).Value = actividad.ActividadId;
+                cmd.Parameters.Add("@Titulo", SqlDbType.NVarChar, 150).Value = actividad.Titulo;
+                cmd.Parameters.Add("@Descripcion", SqlDbType.NVarChar, 1000).Value = ActividadSql.ValorONulo(actividad.Descripcion);
+                cmd.Parameters.Add("@TipoId", SqlDbType.Int).Value = actividad.TipoId;
+                cmd.Parameters.Add("@FechaInicio", SqlDbType.Date).Value = actividad.FechaInicio.Date;
+                cmd.Parameters.Add("@FechaFin", SqlDbType.Date).Value = actividad.FechaFin.Date;
+                cmd.Parameters.Add("@HoraInicio", SqlDbType.Time).Value = ActividadSql.ValorONulo(actividad.HoraInicio);
+                cmd.Parameters.Add("@HoraFin", SqlDbType.Time).Value = ActividadSql.ValorONulo(actividad.HoraFin);
+                cmd.Parameters.Add("@Modalidad", SqlDbType.NVarChar, 20).Value = actividad.Modalidad;
+                cmd.Parameters.Add("@Lugar", SqlDbType.NVarChar, 150).Value = actividad.Lugar;
+                cmd.Parameters.Add("@Cupos", SqlDbType.Int).Value = actividad.Cupos;
+
+                cn.Open();
+                return cmd.ExecuteNonQuery() == 1;
+            }
+        }
+
+        public bool CambiarEstado(int actividadId, string nuevoEstado)
+        {
+            const string sql = @"
+            UPDATE dbo.ActividadAcademica
+            SET Estado = @Estado
+            WHERE ActividadId = @ActividadId;";
+
+            using (SqlConnection cn = ConexionDb.Crear())
+            using (var cmd = new SqlCommand(sql, cn))
+            {
+                cmd.Parameters.Add("@ActividadId", SqlDbType.Int).Value = actividadId;
+                cmd.Parameters.Add("@Estado", SqlDbType.NVarChar, 20).Value = nuevoEstado;
+
+                cn.Open();
+                return cmd.ExecuteNonQuery() == 1;
             }
         }
     }
