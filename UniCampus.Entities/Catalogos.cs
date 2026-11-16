@@ -16,7 +16,7 @@
     }
 
     /// <summary>
-    /// Valores permitidos para Modalidad. Coinciden con la restricción
+    /// Valores permitidos para la Modalidad. Coinciden con la restricción
     /// CK_Actividad_Modalidad de la base de datos.
     /// </summary>
     public static class Modalidades
