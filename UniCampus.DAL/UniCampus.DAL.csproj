@@ -40,7 +40,9 @@
   <ItemGroup>
     <Compile Include="ActividadRepository.cs" />
     <Compile Include="ActividadSql.cs" />
+    <Compile Include="CatalogoRepository.cs" />
     <Compile Include="ConexionDb.cs" />
+    <Compile Include="ReporteRepository.cs" />
     <Compile Include="TipoActividadRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UsuarioRepository.cs" />
