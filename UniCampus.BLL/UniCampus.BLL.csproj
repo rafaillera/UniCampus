@@ -39,6 +39,7 @@
     <Compile Include="ActividadService.cs" />
     <Compile Include="AutenticacionService.cs" />
     <Compile Include="CatalogoService.cs" />
+    <Compile Include="InscripcionService.cs" />
     <Compile Include="ReporteService.cs" />
     <Compile Include="TipoActividadService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

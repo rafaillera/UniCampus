@@ -42,6 +42,7 @@
     <Compile Include="ActividadSql.cs" />
     <Compile Include="CatalogoRepository.cs" />
     <Compile Include="ConexionDb.cs" />
+    <Compile Include="InscripcionRepository.cs" />
     <Compile Include="ReporteRepository.cs" />
     <Compile Include="TipoActividadRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

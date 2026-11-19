@@ -59,8 +59,10 @@
     <Content Include="Actividades.aspx" />
     <Content Include="Catalogo.aspx" />
     <Content Include="Content\site.css" />
+    <Content Include="DetalleActividad.aspx" />
     <Content Include="Error.html" />
     <Content Include="Login.aspx" />
+    <Content Include="MisInscripciones.aspx" />
     <Content Include="Reportes.aspx" />
     <Content Include="Site.Master" />
     <Content Include="Web.config" />
@@ -88,6 +90,13 @@
     <Compile Include="Catalogo.aspx.designer.cs">
       <DependentUpon>Catalogo.aspx</DependentUpon>
     </Compile>
+    <Compile Include="DetalleActividad.aspx.cs">
+      <DependentUpon>DetalleActividad.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DetalleActividad.aspx.designer.cs">
+      <DependentUpon>DetalleActividad.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Login.aspx.cs">
       <DependentUpon>Login.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -95,9 +104,18 @@
     <Compile Include="Login.aspx.designer.cs">
       <DependentUpon>Login.aspx</DependentUpon>
     </Compile>
+    <Compile Include="MisInscripciones.aspx.cs">
+      <DependentUpon>MisInscripciones.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MisInscripciones.aspx.designer.cs">
+      <DependentUpon>MisInscripciones.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Presenters\ActividadesPresenter.cs" />
     <Compile Include="Presenters\CatalogoPresenter.cs" />
+    <Compile Include="Presenters\DetalleActividadPresenter.cs" />
     <Compile Include="Presenters\LoginPresenter.cs" />
+    <Compile Include="Presenters\MisInscripcionesPresenter.cs" />
     <Compile Include="Presenters\ReportesPresenter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Reportes.aspx.cs">
@@ -120,7 +138,9 @@
     </Compile>
     <Compile Include="Views\IActividadesView.cs" />
     <Compile Include="Views\ICatalogoView.cs" />
+    <Compile Include="Views\IDetalleActividadView.cs" />
     <Compile Include="Views\ILoginView.cs" />
+    <Compile Include="Views\IMisInscripcionesView.cs" />
     <Compile Include="Views\IReportesView.cs" />
   </ItemGroup>
   <ItemGroup>

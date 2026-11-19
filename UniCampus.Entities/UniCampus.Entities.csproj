@@ -39,6 +39,7 @@
     <Compile Include="ActividadDto.cs" />
     <Compile Include="Catalogos.cs" />
     <Compile Include="FiltroActividadDto.cs" />
+    <Compile Include="InscripcionDto.cs" />
     <Compile Include="ReporteDtos.cs" />
     <Compile Include="ResultadoAutenticacion.cs" />
     <Compile Include="ResultadoOperacion.cs" />
